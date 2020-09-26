@@ -37,16 +37,19 @@ int main(void)
     /* Initialize the device and board peripherals */
     result = cybsp_init();
 
+    CY_ASSERT(result == CY_RSLT_SUCCESS);
+
     /* Initialize the I2C to use with the OLED display */
-    i2c_init(&i2c_obj);
+    result = cyhal_i2c_init(&i2c_obj, CYBSP_I2C_SDA, CYBSP_I2C_SCL, NULL);
+
     CY_ASSERT(result == CY_RSLT_SUCCESS);
 
     /* Initialize the OLED display */
-    rslt = mtb_ssd1306_init_i2c(&i2c_obj);
+    result = mtb_ssd1306_init_i2c(&i2c_obj);
+
     CY_ASSERT(result == CY_RSLT_SUCCESS);
 
     __enable_irq();
-
     GUI_Init();
     GUI_DispString("Hello world!");
 
@@ -79,12 +82,14 @@ int main(void)
     /* Initialize the device and board peripherals */
     result = cybsp_init();
 
+    CY_ASSERT(result == CY_RSLT_SUCCESS);
+
     /* Initialize the I2C to use with the OLED display */
-    i2c_init(&i2c_obj);
+    result = cyhal_i2c_init(&i2c_obj, CYBSP_I2C_SDA, CYBSP_I2C_SCL, NULL);
     CY_ASSERT(result == CY_RSLT_SUCCESS);
 
     /* Initialize the OLED display */
-    rslt = mtb_ssd1306_init_i2c(&i2c_obj);
+    result = mtb_ssd1306_init_i2c(&i2c_obj);
     CY_ASSERT(result == CY_RSLT_SUCCESS);
 
     __enable_irq();

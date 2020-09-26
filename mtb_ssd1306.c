@@ -74,6 +74,7 @@ void mtb_ssd1306_write_command_byte(unsigned char c)
 
     /* Write the buffer to display controller */
     cy_rslt_t rslt = cyhal_i2c_master_write(i2c_ptr, OLED_I2C_ADDRESS, buff, 2, 0, true);
+    CY_UNUSED_PARAMETER(rslt); /* CY_ASSERT only processes in DEBUG, ignores for others */
     CY_ASSERT(CY_RSLT_SUCCESS == rslt);
 }
 
@@ -89,6 +90,7 @@ void mtb_ssd1306_write_data_byte(unsigned char c)
 
     /* Write the buffer to display controller */
     cy_rslt_t rslt = cyhal_i2c_master_write(i2c_ptr, OLED_I2C_ADDRESS, buff, 2, 0, true);
+    CY_UNUSED_PARAMETER(rslt); /* CY_ASSERT only processes in DEBUG, ignores for others */
     CY_ASSERT(CY_RSLT_SUCCESS == rslt);
 }
 
@@ -107,5 +109,6 @@ void mtb_ssd1306_write_data_stream(unsigned char *pData, int numBytes)
 
     /* Write all the data bytes to the display controller */
     cy_rslt_t rslt = cyhal_i2c_master_write(i2c_ptr, OLED_I2C_ADDRESS, buff, numBytes+1, 0, true);
+    CY_UNUSED_PARAMETER(rslt); /* CY_ASSERT only processes in DEBUG, ignores for others */
     CY_ASSERT(CY_RSLT_SUCCESS == rslt);
 }

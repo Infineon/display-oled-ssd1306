@@ -79,6 +79,7 @@ uint8_t u8x8_byte_hw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_p
 
         case U8X8_MSG_BYTE_END_TRANSFER:
             rslt = cyhal_i2c_master_write(i2c_ptr, OLED_I2C_ADDRESS, buffer, buf_idx, 0, true);
+            CY_UNUSED_PARAMETER(rslt); /* CY_ASSERT only processes in DEBUG, ignores for others */
             CY_ASSERT(CY_RSLT_SUCCESS == rslt);
             break;
 
