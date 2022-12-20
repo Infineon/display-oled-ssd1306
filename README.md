@@ -126,13 +126,13 @@ int main(void)
 
 ### More information
 
-* [API Reference Guide](https://cypresssemiconductorco.github.io/display-oled-ssd1306/html/index.html)
+* [API Reference Guide](https://infineon.github.io/display-oled-ssd1306/html/index.html)
 * [Cypress Semiconductor, an Infineon Technologies Company](http://www.cypress.com)
-* [Cypress Semiconductor GitHub](https://github.com/cypresssemiconductorco)
-* [ModusToolbox](https://www.cypress.com/products/modustoolbox-software-environment)
-* [PSoC 6 Code Examples using ModusToolbox IDE](https://github.com/cypresssemiconductorco/Code-Examples-for-ModusToolbox-Software)
-* [PSoC 6 Middleware](https://github.com/cypresssemiconductorco/psoc6-middleware)
-* [PSoC 6 Resources - KBA223067](https://community.cypress.com/docs/DOC-14644)
+* [Infineon GitHub](https://github.com/infineon)
+* [ModusToolbox™](https://www.cypress.com/products/modustoolbox-software-environment)
+* [PSoC™ 6 Code Examples using ModusToolbox™ IDE](https://github.com/infineon/Code-Examples-for-ModusToolbox-Software)
+* [ModusToolbox™ Software](https://github.com/Infineon/modustoolbox-software)
+* [PSoC™ 6 Resources - KBA223067](https://community.cypress.com/docs/DOC-14644)
 
 ---
-© Cypress Semiconductor Corporation, 2019-2020.
+© Cypress Semiconductor Corporation (an Infineon company) or an affiliate of Cypress Semiconductor Corporation, 2019-2021.

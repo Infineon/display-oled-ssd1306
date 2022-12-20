@@ -6,7 +6,9 @@
  *
  *******************************************************************************
  * \copyright
- * Copyright 2018-2020 Cypress Semiconductor Corporation
+ * Copyright 2018-2022 Cypress Semiconductor Corporation (an Infineon company) or
+ * an affiliate of Cypress Semiconductor Corporation
+ *
  * SPDX-License-Identifier: Apache-2.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -53,7 +55,7 @@ cyhal_i2c_t* mtb_ssd1306_get_i2c_ptr(void);
  *
  * @param[in] c command to be written to the display controller
  */
-void mtb_ssd1306_write_command_byte(unsigned char c);
+void mtb_ssd1306_write_command_byte(uint8_t c);
 
 /**
  * This function writes a data byte to the display controller with A0 = 1
@@ -61,7 +63,7 @@ void mtb_ssd1306_write_command_byte(unsigned char c);
  *
  * @param[in] c data to be written to the display controller
  */
-void mtb_ssd1306_write_data_byte(unsigned char c);
+void mtb_ssd1306_write_data_byte(uint8_t c);
 
 /**
  * This function writes multiple data bytes to the display controller with A0 = 1
@@ -70,10 +72,8 @@ void mtb_ssd1306_write_data_byte(unsigned char c);
  * @param[in] pData     Pointer to the buffer that has data
  * @param[in] numBytes  Number of bytes to be written to the display controller
  */
-void mtb_ssd1306_write_data_stream(unsigned char *pData, int numBytes);
+void mtb_ssd1306_write_data_stream(uint8_t* pData, int numBytes);
 
 #if defined(__cplusplus)
 }
 #endif
-
-/*************************** End of file ****************************/

@@ -60,7 +60,12 @@ extern "C"
 *
 **********************************************************************
 */
-
+//
+// Define the overhead size for RAM allocation 
+//
+#if !defined(GUI_OVERHEAD_NUMBYTES)
+    #define GUI_OVERHEAD_NUMBYTES  (2048)
+#endif
 //
 // Define the available number of bytes available for the GUI
 //
@@ -69,7 +74,7 @@ extern "C"
         #define GUI_NUMBYTES  (1024*32)
     #else
         #define GUI_NUMBYTES  ((MTB_DISPLAY_SIZE_X * MTB_DISPLAY_SIZE_Y * \
-                                MTB_DISPLAY_COLOR_BITS / 4) + 2048)
+                                MTB_DISPLAY_COLOR_BITS / 4) + GUI_OVERHEAD_NUMBYTES)
     #endif
 #endif
 

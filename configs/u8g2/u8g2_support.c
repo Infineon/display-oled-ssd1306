@@ -1,12 +1,14 @@
 /******************************************************************************
- * \file LCDConf.c
+ * \file u8g2_support.c
  *
  * Description: This file contains the support functions used by the u8g2
  * graphics library.
  *
  *******************************************************************************
  * \copyright
- * Copyright 2018-2020 Cypress Semiconductor Corporation
+ * Copyright 2018-2022 Cypress Semiconductor Corporation (an Infineon company) or
+ * an affiliate of Cypress Semiconductor Corporation
+ *
  * SPDX-License-Identifier: Apache-2.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,29 +36,31 @@ extern "C"
 {
 #endif
 
-/* I2C Timeout in ms */
+// I2C Timeout in ms
 #define TIMEOUT 1000
 
-static cyhal_i2c_t *i2c_ptr;
+static cyhal_i2c_t* i2c_ptr;
 
 
-/*******************************************************************************
-*  This is a hardware abstraction layer for the u8x8 library
-********************************************************************************/
-uint8_t u8x8_byte_hw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+//--------------------------------------------------------------------------------------------------
+// u8x8_byte_hw_i2c
+//
+// This is a hardware abstraction layer for the u8x8 library
+//--------------------------------------------------------------------------------------------------
+uint8_t u8x8_byte_hw_i2c(u8x8_t* u8x8, uint8_t msg, uint8_t arg_int, void* arg_ptr)
 {
-    /* u8g2/u8x8 will never send more than 32 bytes between START_TRANSFER and END_TRANSFER */
+    // u8g2/u8x8 will never send more than 32 bytes between START_TRANSFER and END_TRANSFER
     static uint8_t buffer[32];
     static uint8_t buf_idx = 0;
 
     cy_rslt_t rslt;
-    uint8_t *data;
+    uint8_t*  data;
 
-    switch(msg)
+    switch (msg)
     {
         case U8X8_MSG_BYTE_SEND:
-            data = (uint8_t *)arg_ptr;
-            while( arg_int > 0 )
+            data = (uint8_t*)arg_ptr;
+            while (arg_int > 0)
             {
                 buffer[buf_idx++] = *data;
                 data++;
@@ -70,7 +74,7 @@ uint8_t u8x8_byte_hw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_p
             break;
 
         case U8X8_MSG_BYTE_SET_DC:
-            /* ignored for i2c */
+            // ignored for i2c
             break;
 
         case U8X8_MSG_BYTE_START_TRANSFER:
@@ -79,7 +83,7 @@ uint8_t u8x8_byte_hw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_p
 
         case U8X8_MSG_BYTE_END_TRANSFER:
             rslt = cyhal_i2c_master_write(i2c_ptr, OLED_I2C_ADDRESS, buffer, buf_idx, 0, true);
-            CY_UNUSED_PARAMETER(rslt); /* CY_ASSERT only processes in DEBUG, ignores for others */
+            CY_UNUSED_PARAMETER(rslt); // CY_ASSERT only processes in DEBUG, ignores for others
             CY_ASSERT(CY_RSLT_SUCCESS == rslt);
             break;
 
@@ -90,30 +94,36 @@ uint8_t u8x8_byte_hw_i2c(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_p
 }
 
 
-/*******************************************************************************
-*  This is a callback function used by the u8x8 library. It is used to add
-*  a delay using the avaialable PSoC delay functions.
-********************************************************************************/
-uint8_t u8x8_gpio_and_delay_cb(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr)
+//--------------------------------------------------------------------------------------------------
+// u8x8_gpio_and_delay_cb
+//
+// This is a callback function used by the u8x8 library. It is used to add a delay using the
+// avaialable PSoC™ delay functions.
+//--------------------------------------------------------------------------------------------------
+uint8_t u8x8_gpio_and_delay_cb(u8x8_t* u8x8, uint8_t msg, uint8_t arg_int, void* arg_ptr)
 {
     (void)u8x8;
     (void)arg_ptr;
-    switch(msg)
+    switch (msg)
     {
         case U8X8_MSG_GPIO_AND_DELAY_INIT: // No initialization required
             break;
+
         case U8X8_MSG_DELAY_MILLI:
             cyhal_system_delay_ms(arg_int);
             break;
+
         case U8X8_MSG_DELAY_10MICRO:
             cyhal_system_delay_us(10);
-         break;
+            break;
+
         case U8X8_MSG_DELAY_100NANO:
             cyhal_system_delay_us(1);
             break;
-        /* We only use I2C in HW so none of these cases are used
-         * If you want to use a software interface or have these pins then you
-         * need to read and write them */
+
+        // We only use I2C in HW so none of these cases are used
+        // If you want to use a software interface or have these pins then you
+        // need to read and write them
         case U8X8_MSG_GPIO_SPI_CLOCK:
         case U8X8_MSG_GPIO_SPI_DATA:
         case U8X8_MSG_GPIO_CS:
@@ -131,6 +141,7 @@ uint8_t u8x8_gpio_and_delay_cb(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
         case U8X8_MSG_GPIO_I2C_CLOCK:
         case U8X8_MSG_GPIO_I2C_DATA:
             break;
+
         default:
             return 0;
     }
@@ -142,4 +153,4 @@ uint8_t u8x8_gpio_and_delay_cb(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void 
 }
 #endif
 
-#endif /* defined(COMPONENT_U8G2) */
+#endif // defined(COMPONENT_U8G2)

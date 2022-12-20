@@ -299,6 +299,7 @@ void GUI_X_ErrorOut(const char *s) { GUI_USE_PARA(s); }
                 break;
             case CYHAL_SYSPM_BEFORE_TRANSITION:
             default:
+                CY_ASSERT(false);
                 break;
         }
 
