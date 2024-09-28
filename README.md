@@ -4,8 +4,8 @@
 
 This library provides functions to support the 128x64 pixel dot matrix OLED display driven by SSD1306 controller. This is the same display as used on the CY8CKIT-032 shield. The library has been designed to work with 3rd part graphics libraries including emWin and u8g2. The examples below show how to integrate with each of these libraries.
 
-Additional details about this display can be found at:\n
-http://www.solomon-systech.com/en/product/advanced-display/oled-display-driver-ic/ssd1306/\n
+Additional details about this display can be found at: <br/>
+https://www.solomon-systech.com/product/ssd1306/ <br/>
 https://cdn-shop.adafruit.com/datasheets/SSD1306.pdf
 
 ### Quick Start
@@ -16,9 +16,9 @@ https://cdn-shop.adafruit.com/datasheets/SSD1306.pdf
 ## emWin application
 
 Follow the steps bellow in order to create a simple emWin application and display some text on it.
-1. Create an empty application
-2. Add this library to the application
-3. Add emWin library to the application
+1. Create an empty application.
+2. Add this library to the application.
+3. Add emWin library to the application.
 4. Enable EMWIN_NOSNTS emWin library option by adding it to the Makefile COMPONENTS list:
 ```
 COMPONENTS+=EMWIN_NOSNTS
@@ -36,8 +36,10 @@ int main(void)
 
     /* Initialize the device and board peripherals */
     result = cybsp_init();
-
-    CY_ASSERT(result == CY_RSLT_SUCCESS);
+    if(CY_RSLT_SUCCESS != result)
+    {
+        CY_ASSERT(0);
+    }
 
     /* Initialize the I2C to use with the OLED display */
     result = cyhal_i2c_init(&i2c_obj, CYBSP_I2C_SDA, CYBSP_I2C_SCL, NULL);
@@ -63,10 +65,14 @@ int main(void)
 ## u8g2 application
 
 Follow the steps bellow in order to create a simple emWin application and display some text on it.
-1. Create an empty application
-2. Add this library to the application
-3. Add u8g2 library to the application (https://github.com/olikraus/u8g2)
-4. Place the following code in the main.c file:
+1. Create an empty application.
+2. Add this library to the application.
+3. Add u8g2 library source directory to the application (https://github.com/olikraus/u8g2/tree/master/csrc).
+4. Set U8G2 library option by adding it to the Makefile COMPONENTS list:
+```
+COMPONENTS+=U8G2
+```
+5. Place the following code in the main.c file:
 ```cpp
 #include "cybsp.h"
 #include "mtb_ssd1306.h"
@@ -81,8 +87,10 @@ int main(void)
 
     /* Initialize the device and board peripherals */
     result = cybsp_init();
-
-    CY_ASSERT(result == CY_RSLT_SUCCESS);
+    if(CY_RSLT_SUCCESS != result)
+    {
+        CY_ASSERT(0);
+    }
 
     /* Initialize the I2C to use with the OLED display */
     result = cyhal_i2c_init(&i2c_obj, CYBSP_I2C_SDA, CYBSP_I2C_SCL, NULL);
@@ -122,17 +130,16 @@ int main(void)
     }
 }
 ```
-5. Build the application and program the kit.
+6. Build the application and program the kit.
 
 ### More information
 
 * [API Reference Guide](https://infineon.github.io/display-oled-ssd1306/html/index.html)
 * [Cypress Semiconductor, an Infineon Technologies Company](http://www.cypress.com)
-* [Infineon GitHub](https://github.com/infineon)
-* [ModusToolbox™](https://www.cypress.com/products/modustoolbox-software-environment)
-* [PSoC™ 6 Code Examples using ModusToolbox™ IDE](https://github.com/infineon/Code-Examples-for-ModusToolbox-Software)
+* [Infineon GitHub](https://github.com/Infineon)
+* [ModusToolbox™](https://www.infineon.com/modustoolbox)
+* [PSoC™ 6 Code Examples using ModusToolbox™ IDE](https://github.com/Infineon/Code-Examples-for-ModusToolbox-Software)
 * [ModusToolbox™ Software](https://github.com/Infineon/modustoolbox-software)
-* [PSoC™ 6 Resources - KBA223067](https://community.cypress.com/docs/DOC-14644)
 
 ---
-© Cypress Semiconductor Corporation (an Infineon company) or an affiliate of Cypress Semiconductor Corporation, 2019-2021.
+© Cypress Semiconductor Corporation (an Infineon company) or an affiliate of Cypress Semiconductor Corporation, 2019-2024.

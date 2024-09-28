@@ -90,9 +90,9 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <h2><a class="anchor" id="autotoc_md1"></a>
 Overview</h2>
 <p >This library provides functions to support the 128x64 pixel dot matrix OLED display driven by SSD1306 controller. This is the same display as used on the CY8CKIT-032 shield. The library has been designed to work with 3rd part graphics libraries including emWin and u8g2. The examples below show how to integrate with each of these libraries.</p>
-<p >Additional details about this display can be found at:<br  />
-<a href="http://www.solomon-systech.com/en/product/advanced-display/oled-display-driver-ic/ssd1306/">http://www.solomon-systech.com/en/product/advanced-display/oled-display-driver-ic/ssd1306/</a><br  />
-<a href="https://cdn-shop.adafruit.com/datasheets/SSD1306.pdf">https://cdn-shop.adafruit.com/datasheets/SSD1306.pdf</a></p>
+<p >Additional details about this display can be found at: <br  />
+ <a href="https://www.solomon-systech.com/product/ssd1306/">https://www.solomon-systech.com/product/ssd1306/</a> <br  />
+ <a href="https://cdn-shop.adafruit.com/datasheets/SSD1306.pdf">https://cdn-shop.adafruit.com/datasheets/SSD1306.pdf</a></p>
 <h2><a class="anchor" id="autotoc_md2"></a>
 Quick Start</h2>
 <ul>
@@ -102,9 +102,9 @@ Quick Start</h2>
 <h1><a class="anchor" id="autotoc_md3"></a>
 emWin application</h1>
 <p >Follow the steps bellow in order to create a simple emWin application and display some text on it.</p><ol type="1">
-<li>Create an empty application</li>
-<li>Add this library to the application</li>
-<li>Add emWin library to the application</li>
+<li>Create an empty application.</li>
+<li>Add this library to the application.</li>
+<li>Add emWin library to the application.</li>
 <li>Enable EMWIN_NOSNTS emWin library option by adding it to the Makefile COMPONENTS list: <div class="fragment"><div class="line">COMPONENTS+=EMWIN_NOSNTS</div>
 </div><!-- fragment --></li>
 <li>Place the following code in the main.c file: <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;cybsp.h&quot;</span></div>
@@ -118,8 +118,10 @@ emWin application</h1>
 <div class="line"> </div>
 <div class="line">    <span class="comment">/* Initialize the device and board peripherals */</span></div>
 <div class="line">    result = cybsp_init();</div>
-<div class="line"> </div>
-<div class="line">    CY_ASSERT(result == CY_RSLT_SUCCESS);</div>
+<div class="line">    <span class="keywordflow">if</span>(CY_RSLT_SUCCESS != result)</div>
+<div class="line">    {</div>
+<div class="line">        CY_ASSERT(0);</div>
+<div class="line">    }</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">/* Initialize the I2C to use with the OLED display */</span></div>
 <div class="line">    result = cyhal_i2c_init(&amp;i2c_obj, CYBSP_I2C_SDA, CYBSP_I2C_SCL, NULL);</div>
@@ -139,16 +141,18 @@ emWin application</h1>
 <div class="line">    {</div>
 <div class="line">    }</div>
 <div class="line">}</div>
-<div class="ttc" id="agroup__group__board__libs_html_ga2b580a440e63729d1a8cfdf56186461f"><div class="ttname"><a href="group__group__board__libs.html#ga2b580a440e63729d1a8cfdf56186461f">mtb_ssd1306_init_i2c</a></div><div class="ttdeci">cy_rslt_t mtb_ssd1306_init_i2c(cyhal_i2c_t *i2c_inst)</div><div class="ttdoc">Initialize the I2C communication with the OLED display.</div><div class="ttdef"><b>Definition:</b> mtb_ssd1306.c:41</div></div>
+<div class="ttc" id="agroup__group__board__libs_html_ga2b580a440e63729d1a8cfdf56186461f"><div class="ttname"><a href="group__group__board__libs.html#ga2b580a440e63729d1a8cfdf56186461f">mtb_ssd1306_init_i2c</a></div><div class="ttdeci">cy_rslt_t mtb_ssd1306_init_i2c(cyhal_i2c_t *i2c_inst)</div><div class="ttdoc">Initialize the I2C communication with the OLED display.</div><div class="ttdef"><b>Definition:</b> mtb_ssd1306.c:43</div></div>
 </div><!-- fragment --></li>
 <li>Build the application and program the kit.</li>
 </ol>
 <h1><a class="anchor" id="autotoc_md4"></a>
 u8g2 application</h1>
 <p >Follow the steps bellow in order to create a simple emWin application and display some text on it.</p><ol type="1">
-<li>Create an empty application</li>
-<li>Add this library to the application</li>
-<li>Add u8g2 library to the application (<a href="https://github.com/olikraus/u8g2">https://github.com/olikraus/u8g2</a>)</li>
+<li>Create an empty application.</li>
+<li>Add this library to the application.</li>
+<li>Add u8g2 library source directory to the application (<a href="https://github.com/olikraus/u8g2/tree/master/csrc">https://github.com/olikraus/u8g2/tree/master/csrc</a>).</li>
+<li>Set U8G2 library option by adding it to the Makefile COMPONENTS list: <div class="fragment"><div class="line">COMPONENTS+=U8G2</div>
+</div><!-- fragment --></li>
 <li>Place the following code in the main.c file: <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;cybsp.h&quot;</span></div>
 <div class="line"><span class="preprocessor">#include &quot;mtb_ssd1306.h&quot;</span></div>
 <div class="line"><span class="preprocessor">#include &quot;u8g2.h&quot;</span></div>
@@ -162,8 +166,10 @@ u8g2 application</h1>
 <div class="line"> </div>
 <div class="line">    <span class="comment">/* Initialize the device and board peripherals */</span></div>
 <div class="line">    result = cybsp_init();</div>
-<div class="line"> </div>
-<div class="line">    CY_ASSERT(result == CY_RSLT_SUCCESS);</div>
+<div class="line">    <span class="keywordflow">if</span>(CY_RSLT_SUCCESS != result)</div>
+<div class="line">    {</div>
+<div class="line">        CY_ASSERT(0);</div>
+<div class="line">    }</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">/* Initialize the I2C to use with the OLED display */</span></div>
 <div class="line">    result = cyhal_i2c_init(&amp;i2c_obj, CYBSP_I2C_SDA, CYBSP_I2C_SCL, NULL);</div>
@@ -210,14 +216,13 @@ More information</h2>
 <ul>
 <li><a href="https://infineon.github.io/display-oled-ssd1306/html/index.html">API Reference Guide</a></li>
 <li><a href="http://www.cypress.com">Cypress Semiconductor, an Infineon Technologies Company</a></li>
-<li><a href="https://github.com/infineon">Infineon GitHub</a></li>
-<li><a href="https://www.cypress.com/products/modustoolbox-software-environment">ModusToolbox™</a></li>
-<li><a href="https://github.com/infineon/Code-Examples-for-ModusToolbox-Software">PSoC™ 6 Code Examples using ModusToolbox™ IDE</a></li>
+<li><a href="https://github.com/Infineon">Infineon GitHub</a></li>
+<li><a href="https://www.infineon.com/modustoolbox">ModusToolbox™</a></li>
+<li><a href="https://github.com/Infineon/Code-Examples-for-ModusToolbox-Software">PSoC™ 6 Code Examples using ModusToolbox™ IDE</a></li>
 <li><a href="https://github.com/Infineon/modustoolbox-software">ModusToolbox™ Software</a></li>
-<li><a href="https://community.cypress.com/docs/DOC-14644">PSoC™ 6 Resources - KBA223067</a></li>
 </ul>
 <hr  />
-<p> © Cypress Semiconductor Corporation (an Infineon company) or an affiliate of Cypress Semiconductor Corporation, 2019-2021. </p>
+<p> © Cypress Semiconductor Corporation (an Infineon company) or an affiliate of Cypress Semiconductor Corporation, 2019-2024. </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 </div><!-- doc-content -->

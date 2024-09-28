@@ -86,7 +86,7 @@ extern "C"
         .states = (cyhal_syspm_callback_state_t)(CYHAL_SYSPM_CB_CPU_DEEPSLEEP | CYHAL_SYSPM_CB_SYSTEM_HIBERNATE),
         .next = NULL,
         .args = NULL,
-        .ignore_modes = 0,
+    /*  .ignore_modes : We don't need this as no transition modes are ignored */
     };
 
 #endif

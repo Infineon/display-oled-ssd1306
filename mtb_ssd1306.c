@@ -6,7 +6,7 @@
  *
  *******************************************************************************
  * \copyright
- * Copyright 2018-2022 Cypress Semiconductor Corporation (an Infineon company) or
+ * Copyright 2018-2024 Cypress Semiconductor Corporation (an Infineon company) or
  * an affiliate of Cypress Semiconductor Corporation
  *
  * SPDX-License-Identifier: Apache-2.0
@@ -24,13 +24,15 @@
  * limitations under the License.
  *******************************************************************************/
 
+#include <string.h>
+
 #include "mtb_ssd1306_i2c.h"
 #include "mtb_ssd1306.h"
 
 #define OLED_CONTROL_BYTE_CMD       (0x00)
 #define OLED_CONTROL_BYTE_DATA      (0x40)
 
-static cyhal_i2c_t* i2c_ptr;
+static cyhal_i2c_t* _mtb_ssd1306_i2c_ptr;
 
 
 //--------------------------------------------------------------------------------------------------
@@ -45,7 +47,7 @@ cy_rslt_t mtb_ssd1306_init_i2c(cyhal_i2c_t* i2c_inst)
         return CY_RSLT_SSD1306_INIT_FAIL;
     }
 
-    i2c_ptr = i2c_inst;
+    _mtb_ssd1306_i2c_ptr = i2c_inst;
 
     return CY_RSLT_SUCCESS;
 }
@@ -58,18 +60,18 @@ cy_rslt_t mtb_ssd1306_init_i2c(cyhal_i2c_t* i2c_inst)
 //--------------------------------------------------------------------------------------------------
 void mtb_ssd1306_free(void)
 {
-    i2c_ptr = NULL;
+    _mtb_ssd1306_i2c_ptr = NULL;
 }
 
 
 //--------------------------------------------------------------------------------------------------
 // mtb_ssd1306_get_i2c_ptr
 //
-// Allows u8g2_support.c to access the i2c_ptr
+// Allows u8g2_support.c to access the _mtb_ssd1306_i2c_ptr
 //--------------------------------------------------------------------------------------------------
 cyhal_i2c_t* mtb_ssd1306_get_i2c_ptr(void)
 {
-    return i2c_ptr;
+    return _mtb_ssd1306_i2c_ptr;
 }
 
 
@@ -84,7 +86,8 @@ void mtb_ssd1306_write_command_byte(uint8_t c)
     uint8_t buff[2] = { OLED_CONTROL_BYTE_CMD, c };
 
     // Write the buffer to display controller
-    cy_rslt_t rslt = cyhal_i2c_master_write(i2c_ptr, OLED_I2C_ADDRESS, buff, 2, 0, true);
+    cy_rslt_t rslt =
+        cyhal_i2c_master_write(_mtb_ssd1306_i2c_ptr, OLED_I2C_ADDRESS, buff, 2, 0, true);
     CY_UNUSED_PARAMETER(rslt); // CY_ASSERT only processes in DEBUG, ignores for others
     CY_ASSERT(CY_RSLT_SUCCESS == rslt);
 }
@@ -101,12 +104,15 @@ void mtb_ssd1306_write_data_byte(uint8_t c)
     uint8_t buff[2] = { OLED_CONTROL_BYTE_DATA, c };
 
     // Write the buffer to display controller
-    cy_rslt_t rslt = cyhal_i2c_master_write(i2c_ptr, OLED_I2C_ADDRESS, buff, 2, 0, true);
+    cy_rslt_t rslt =
+        cyhal_i2c_master_write(_mtb_ssd1306_i2c_ptr, OLED_I2C_ADDRESS, buff, 2, 0, true);
     CY_UNUSED_PARAMETER(rslt); // CY_ASSERT only processes in DEBUG, ignores for others
     CY_ASSERT(CY_RSLT_SUCCESS == rslt);
 }
 
 
+CY_MISRA_DEVIATE_BLOCK_START('MISRA C-2012 Directive 4.6', 1,
+                             'emWin expects variable numBytes to be int type.');
 //--------------------------------------------------------------------------------------------------
 // mtb_ssd1306_write_data_stream
 //
@@ -114,6 +120,7 @@ void mtb_ssd1306_write_data_byte(uint8_t c)
 //--------------------------------------------------------------------------------------------------
 void mtb_ssd1306_write_data_stream(uint8_t* pData, int numBytes)
 {
+    CY_MISRA_BLOCK_END('MISRA C-2012 Directive 4.6');
     CY_ASSERT(numBytes <= MTB_DISPLAY_SIZE_X);
     uint8_t buff[MTB_DISPLAY_SIZE_X + 1];
 
@@ -122,7 +129,8 @@ void mtb_ssd1306_write_data_stream(uint8_t* pData, int numBytes)
     memcpy(&buff[1], pData, numBytes);
 
     // Write all the data bytes to the display controller
-    cy_rslt_t rslt = cyhal_i2c_master_write(i2c_ptr, OLED_I2C_ADDRESS, buff, numBytes+1, 0, true);
+    cy_rslt_t rslt = cyhal_i2c_master_write(_mtb_ssd1306_i2c_ptr, OLED_I2C_ADDRESS, buff,
+                                            numBytes+1, 0, true);
     CY_UNUSED_PARAMETER(rslt); // CY_ASSERT only processes in DEBUG, ignores for others
     CY_ASSERT(CY_RSLT_SUCCESS == rslt);
 }
